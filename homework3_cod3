@@ -1,0 +1,123 @@
+import random
+
+global L,r,n;
+global Se,time;
+global best;
+global x; #已知序列
+
+
+#initialize
+L = 50; #个体数量
+n = 100; #字符串长度
+r = 0.2; #选择率
+time = 100; #迭代次数
+
+Se =int(L*(1-r)) #最优个体数
+p = [0.0]*n;  #字符串概率分布模型
+H = [[0]*(n) for i in range(L)];  #种群情况
+x = [0]*(n) ;
+for i in range(n):
+    x[i] = random.randint(0,1);
+Fx = [0.0]*L;
+count1 = [0.0]*n;
+
+print(x)
+print(len(x))
+
+
+#初始化
+def init():
+    # print("init-----------------");
+    global best;
+    best = -1;
+    for i in range(n):
+        p[i] = 0.5;   #初始概率分布为0.5
+    for i in range(L):
+        for k in range(n):
+            if (random.random() < p[k]):
+                H[i][k] = 1;
+            else:
+                H[i][k] = 0;
+    # for i in range(L):
+    #     print([H[i]]);
+
+
+#适应度函数
+def fitness():
+    # print("fitness-----------------");
+    Fx = [0.0]*L ;
+    #对于L中的个体i
+    for i in range(L):
+        fx = 0;
+        #计算其适应度
+        for j in range(n):
+            fx = fx + abs(H[i][j]-x[i]);
+        Fx[i] = fx;
+
+    print(Fx)
+    return Fx;
+
+#更新概率模型
+def update(Fxx):
+    # print("update-----------------");
+    for i in range(n):
+        p[i] = 0;
+    #根据较优个体更新
+    lst = [[0.0 for col in range(2)] for row in range(L)]
+    # print("list---------------")
+    # print(lst)
+
+    for i in range(L):
+        lst[i][0] = Fxx[i];
+        lst[i][1] = H[i];
+
+    # for i in range(L):
+    #     print(lst[i]);
+    lst.sort();
+    # for i in range(L):
+    #     print(lst[i]);
+
+    best = lst[0][0];
+    print("bestttttttttttt",best);
+
+    for i in range(Se):
+        H[i] = lst[i][1];
+
+
+    count1 = [0.0]*n;
+    for i in range(Se):
+        for j in range(n):
+            if (H[i][j]==1) :
+                count1[j] = count1[j] + 1;
+    #计算新的概率模型
+    for i in range(n):
+        p[i]= (count1[i])/float(Se);
+
+    ##更新种群
+    for i in range(Se,L):
+        for k in range(n):
+            if (random.random() < p[k]):
+                H[i][k] = 1;
+            else:
+                H[i][k] = 0;
+    # print("updated:")
+    # for i in range(L):
+    #     print(H[i])
+
+#迭代过程
+
+init();
+for i in range(time):
+    Fxxx = fitness();
+    update(Fxxx);
+
+
+
+
+
+
+
+
+
+
+
