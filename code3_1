@@ -8,10 +8,10 @@ global x; #已知序列
 
 
 #initialize
-L = 4; #个体数量
+L = 100; #个体数量
 n = 100; #字符串长度
-r = 0.5; #选择率
-time = 2; #迭代次数
+r = 0.2; #选择率
+time = 50; #迭代次数
 
 Se =int(L*(1-r)) #最优个体数
 p = [0.0]*n;  #字符串概率分布模型
@@ -57,7 +57,7 @@ def fitness():
             fx = fx + abs(H[i][j]-x[j]);
         Fx[i] = fx;
 
-    print(Fx)
+    #print(Fx)
     return Fx;
 
 #更新概率模型
@@ -124,9 +124,9 @@ y=best_lst#Y轴数据
 
 plt.figure(figsize=(8,4))
 
-plt.plot(x,y,label="$F(x)$",color="blue",linewidth=2)#将$包围的内容渲染为数学公式
+plt.plot(x,y,color="blue",linewidth=2)#将$包围的内容渲染为数学公式
 
 plt.xlabel("Iterate Time")
-plt.ylabel("Error")
-plt.title("Optimization Procedure ")
+plt.ylabel("Error:F(x)")
+plt.title("Optimization Procedure   L=100 r=0.2")
 plt.show()
