@@ -9,9 +9,9 @@ global x; #已知序列
 
 #initialize
 L = 100; #个体数量
-n = 100; #字符串长度
+n = 500; #字符串长度
 r = 0.2; #选择率
-time = 50; #迭代次数
+time = 60; #迭代次数
 
 Se =int(L*(1-r)) #最优个体数
 p = [0.0]*n;  #字符串概率分布模型
@@ -107,7 +107,7 @@ def update(Fxx):
     # print("updated:")
     # for i in range(L):
     #     print(H[i])
-    return best;
+    return float(best)/float(n);
 
 #迭代过程
 
@@ -117,6 +117,8 @@ for i in range(time):
     best_lst[i]=update(Fxxx);
 
 print(best_lst)
+
+
 
 x=range(0,time)#X轴数据
 y=best_lst#Y轴数据
@@ -128,5 +130,5 @@ plt.plot(x,y,color="blue",linewidth=2)#将$包围的内容渲染为数学公式
 
 plt.xlabel("Iterate Time")
 plt.ylabel("Error:F(x)")
-plt.title("Optimization Procedure   L=100 r=0.2")
+plt.title("Optimization Procedure   L=100 n=100 r=0.2")
 plt.show()
